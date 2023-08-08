@@ -1,0 +1,99 @@
+body{
+    background-image: URL('../images/backgound.png');
+    background-size: cover;
+}
+#cover{
+    background-color: aliceblue;
+    width: 350px;
+    height: 400px;
+    position: relative;
+    top: 17vh;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 20px;
+}
+#contain{
+    background-color: deeppink;
+    width: 250px;
+    height: 80px;
+    position: absolute;
+    top: 10vh;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 15px;
+    z-index: 1;
+}
+#contain p{
+    color: whitesmoke;
+    /* text-emphasis: bold; */
+    font-weight: bold;
+    text-align: center;
+    margin: 8px 0 15px 0;
+    font-size: 20px;
+}
+#icon{
+    text-align: center;
+}
+ion-icon{
+    color: whitesmoke;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 0 10px 0 0;
+}
+input{
+    background: none;
+    border: none;
+    outline: none;
+    width: 70%;
+    margin: 0 15% 0 3%;
+    font-size: 16px;
+}
+#divicon{
+    position: relative;
+    /* top: 70px; */
+    left: 50%;
+    /* padding: 0 0 0 0; */
+    transform: translateX(-50%);
+    display: flex;
+}
+#input{
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+}
+span{
+  border-bottom: 2px solid black;
+  width: 0;
+  position: absolute;
+  bottom: 0;
+  left: 16%;
+  transition: 0.3s;
+  /* transform: ; */
+}
+#sign_up p{
+  color: red;
+  margin: 10px 0 0 57px;
+}
+#logo{
+  font-size: 18px;
+  margin: 2% 0 0 8%;
+  /* position: relative; */
+  /* top: 20px; */
+}
+input:focus ~ span{
+  width: 75%;
+}
+#myTab{
+  padding: 15% 0 0 0;
+}
+#btn_signin{
+  width: 100%;
+}
+#button{
+  text-align: center;
+}
+.btn{
+  width: 60%;
+  box-shadow: 1px 2px 2px 1px  rgba(0, 0, 0, 0.3);
+}
