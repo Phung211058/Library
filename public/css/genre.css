@@ -10,6 +10,9 @@
     align-items: center;
     justify-content: center;
 }
+a{
+    text-decoration: none;
+}
 div ul li{
     width: 100%;
     list-style: none;
@@ -22,8 +25,8 @@ div ul li{
     font-size: 24px;
 }
 div ul li:hover{
-    background-color: darkslategray;
-    color: darkgoldenrod;
+    background-color: darkgray;
+    color: rgb(78, 51, 12);
 }
 #menu p{
     text-align: center
@@ -35,12 +38,15 @@ div ul li:hover{
     box-shadow: 2px 3px 3px 2px rgba(0, 0, 0, 0.25), 1px 2px 2px 1px rgba(0, 0, 0, 0.18), 1px 2px 2px 1px rgba(0, 0, 0, 0.1);
     margin: 3vh 0 0 25%;
 }
-img{
+#titleimg{
     width: 50%;
     height: 50%;
-    margin: 10% 0 0 23%;
+    margin: 25% 0 0 23%;
     box-shadow: 2px 3px 3px 2px rgba(0, 0, 0, 0.25), 1px 2px 2px 1px rgba(0, 0, 0, 0.18), 1px 2px 2px 1px rgba(0, 0, 0, 0.1);
     border-radius: 50%;
+}
+#contentimg{
+    width: 100px;
 }
 #option{
     background-color: cornflowerblue;
@@ -66,9 +72,3 @@ img{
     text-align: center;
 
 }
-/* thead{
-    position: fixed;
-    top: 10%;
-    right: 0;
-    width: 80%;
-} */

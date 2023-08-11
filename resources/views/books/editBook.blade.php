@@ -18,17 +18,21 @@
     <!-- place navbar here -->
   </header>
   <main>
-    <div id="TitleImgage">
-        <img src="" alt="">
-    </div>
-    <form action="/books/{{ $book->id }}" method="post">
+    <form action="/books/{{ $book->id }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('PUT')
+    <div id="TitleImgage">
+        <img style="width: 100%" src="/images/{{ $book->Image }}" alt="">
+    </div>
     <div id="main">
         <div class="col-6">
             <div id="content">
                 <Span class="mt-4">ID</Span>
-                <input type="hidden" class="form-control mt-3" value="{{ $book->id }}">
+                <input type="text" class="form-control mt-3" value="{{ $book->id }}" disabled>
+            </div>
+            <div id="content">
+                <Span class="mt-4">Image</Span>
+                <input type="file" class="form-control mt-3" name="update_Image" id="inputGroupFile02" value="{{ $book->Image }}">
             </div>
             <div id="content">
                 <Span class="mt-4">Genre</Span>
@@ -44,16 +48,16 @@
                 <Span class="mt-4">Name</Span>
                 <input name="update_Book_Name" type="text" class="form-control mt-3" value="{{ $book->Book_Name }}">
             </div>
+        </div>
+        <div class="col-6">
             <div id="content">
                 <Span class="mt-2">Parallel Name</Span>
                 <input name="update_Parallel_name" type="text" class="form-control mt-3" value="{{ $book->Parallel_name }}">
             </div>
-        </div>
-        <div class="col-6">
-            <div id="content">
+            {{-- <div id="content">
                 <Span class="mt-3">Caption</Span>
                 <input name="update_Caption" type="text" class="form-control mt-1" value="{{ $book->Caption }}">
-            </div>
+            </div> --}}
             <div id="content">
                 <Span class="mt-4">Author</Span>
                 <input name="update_Author" type="text" class="form-control mt-3" value="{{ $book->Author }}">
@@ -69,10 +73,11 @@
         </div>
     </div>
     <div id="action">
-        <button class="btn btn-success me-2">Save</button>
-        <a href=""><button class="btn btn-danger ms-2">Cancel</button></a>
+        <button type="submit" class="btn btn-success me-2">Save</button>
+        {{-- <a href="/books/"><button type="text" class="btn btn-danger ms-2">Cancel</button></a> --}}
     </div>
     </form>
+    <a href="/books/"><button id="cancel" class="btn btn-danger ms-2">Cancel</button></a>
   </main>
   <footer>
     <!-- place footer here -->

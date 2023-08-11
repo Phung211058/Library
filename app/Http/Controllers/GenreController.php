@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Genre;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class GenreController extends Controller
 {
@@ -14,6 +15,16 @@ class GenreController extends Controller
     {
         $genres = Genre::all();
         return view('genres.genre', compact('genres'));
+    }
+
+    // fetch_genres
+    public function fetch_genres()
+    {
+        $genres = Genre::all();
+        return response()->json([
+            'status' => 100,
+            'genres' => $genres,
+        ]);
     }
 
     /**
@@ -29,10 +40,29 @@ class GenreController extends Controller
      */
     public function store(Request $request)
     {
-        $genre = new Genre();
-        $genre->Genres_name = $request->Genres_Name;
-        $genre->save();
-        return redirect('/genre');
+        $validate = Validator::make($request->all(), [
+            'Genres_Name' => 'required'
+        ],
+        [
+            'Genres_Name.required' => 'The field does not empty',
+        ]);
+        if($validate->fails()){
+            return response()->json([
+                'status' => 400,
+                'errors' => $validate->messages(),
+            ]);
+        }
+        else{
+            $genre = new Genre();
+            $genre->Genres_name = $request->Genres_Name;
+            $genre->save();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Success',
+        ]);
+        }
+
+
     }
 
     /**
@@ -49,7 +79,11 @@ class GenreController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $genre = Genre::find($id);
+        return response()->json([
+            'status' => 200,
+            'genre' => $genre, 
+        ]);
     }
 
     /**
@@ -57,7 +91,14 @@ class GenreController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $genre = Genre::find($id);
+        $genre->Genres_name = $request->update_name;
+        $genre->update();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Successfully updated',
+        ]);
+        // return redirect('/genre');
     }
 
     /**

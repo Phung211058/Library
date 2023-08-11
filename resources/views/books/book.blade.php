@@ -2,14 +2,17 @@
 @section('title', 'Genres')
 @section('content')
     <div id="menu">
-        <img src="{{ asset('images/joker1.png') }}" alt="">
+        <img id="titleimg" src="{{ asset('images/joker1.png') }}" alt="">
         <p class="mt-2">Hello Phung</p>
-    {{-- <ul>
-        <li>Information</li>
-        <li>List</li>
+    <ul>
+        <a href="/addReader/"><li>Reader list</li></a>
+        <a href="/genre/"><li>Genre list</li></a>
+        <a href="/books/"><li>Books list</li></a>
+        <a href="/category/"><li>Categories list</li></a>
+        {{-- <li>List</li>
         <li>Teachers</li>
-        <li>Students</li>
-    </ul> --}}
+        <li>Students</li> --}}
+    </ul>
     <div id="btn">
         <button id="add" name="add" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createForm">Add new</button>
     </div>
@@ -40,16 +43,17 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/books/" method="POST" style="display: inline">
+                <form action="/books/" method="POST" style="display: inline" enctype="multipart/form-data">
                     @csrf
-                    <select class="form-select" name="genre_id" id="">
+                    <input type="file" class="form-control" name="Image" id="inputGroupFile02" value="choose image">
+                    <select class="form-select mt-3" name="genre_id" id="">
                         @foreach ($genre as $gen)
                             <option value="{{ $gen->id }}">{{ $gen->Genres_Name }}</option>
                         @endforeach
                     </select>
                     <input type="text" id="" name="Book_Name" class="form-control mt-3" placeholder="Name" aria-describedby="basic-addon1">
                     <input type="text" id="" name="Parallel_name" class="form-control mt-3" placeholder="Parallel Name" aria-describedby="basic-addon1">
-                    <input type="text" id="" name="Caption" class="form-control mt-3" placeholder="Caption" aria-describedby="basic-addon1">
+                    {{-- <input type="text" id="" name="Caption" class="form-control mt-3" placeholder="Caption" aria-describedby="basic-addon1"> --}}
                     <input type="text" id="" name="Author" class="form-control mt-3" placeholder="Author" aria-describedby="basic-addon1">
                     <input type="text" id="" name="Publishing_year" class="form-control mt-3" placeholder="Publishing year" aria-describedby="basic-addon1">
                     <input type="text" id="" name="Number_of_pages" class="form-control mt-3" placeholder="Number of page" aria-describedby="basic-addon1">
@@ -61,44 +65,14 @@
             </div>
         </div>
         </div>
-    </div>
-    {{-- <div class="modal fade" id="updateForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="">Update Book here</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ url('books') }}" method="POST" style="display: inline">
-                        @csrf @method('PUT')
-                        <select class="form-select" name="genre_id" id="genre_id"> --}}
-                            {{-- @foreach ($genre as $gen)
-                                <option value="{{ $gen->id }}">{{ $gen->Genres_Name }}</option>
-                            @endforeach --}}
-                        {{-- </select>
-                        <input type="text" id="Book_Name" name="update_Book_Name" required class="form-control mt-3">
-                        <input type="text" id="Parallel_name" name="update_Parallel_name" class="form-control mt-3">
-                        <input type="text" id="Caption" name="update_Caption" class="form-control mt-3" required>
-                        <input type="text" id="Author" name="update_Author" class="form-control mt-3" required>
-                        <input type="text" id="Publishing_year" name="update_Publishing_year" class="form-control mt-3" required>
-                        <input type="text" id="Number_of_pages" name="update_Number_of_pages" class="form-control mt-3" required>
-                </div> 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Update</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-    
+    </div> 
     <table class="table">
         <thead class="table-dark">
+            <th class="col-2">Image</th>
             <th class="col-1">Genre</th>
             <th class="col-2">Name</th>
             <th class="col-2">Parallel name</th>
-            <th class="col-2">Caption</th>
+            {{-- <th class="col-2">Caption</th> --}}
             <th class="col-1">Author</th>
             <th class="col-1">Publishing year</th>
             <th class="col-1">Number of page</th>
@@ -107,10 +81,14 @@
         <tbody>
             @foreach($book as $book)
             <tr>
+                <td>
+                    <img id="contentimg" src="/images/{{ $book->Image }}" alt="">
+                    {{-- {{ $book->Image }} --}}
+                </td>
                 <td>{{ $book->genre->Genres_Name }}</td>
                 <td>{{ $book->Book_Name }}</td>
                 <td>{{ $book->Parallel_name }}</td>
-                <td>{{ $book->Caption }}</td>
+                {{-- <td>{{ $book->Caption }}</td> --}}
                 <td>{{ $book->Author }}</td>
                 <td>{{ $book->Publishing_year }}</td>
                 <td>{{ $book->Number_of_pages }}</td>

@@ -5,9 +5,9 @@ body{
 #cover{
     background-color: aliceblue;
     width: 350px;
-    height: 400px;
+    height: 510px;
     position: relative;
-    top: 17vh;
+    top: 12vh;
     left: 50%;
     transform: translateX(-50%);
     border-radius: 20px;
@@ -17,11 +17,19 @@ body{
     width: 250px;
     height: 80px;
     position: absolute;
-    top: 10vh;
+    top: 5vh;
     left: 50%;
     transform: translateX(-50%);
     border-radius: 15px;
     z-index: 1;
+}
+#show_success_alert{
+  /* margin: 50px 0 0 0; */
+  font-size: 14px;
+  /* height: 0px; */
+  position: relative;
+  top: 33px;
+  left: 90px;
 }
 #contain p{
     color: whitesmoke;
@@ -73,7 +81,8 @@ span{
 }
 #sign_up p{
   color: red;
-  margin: 10px 0 0 57px;
+  margin: 7px 0 0 57px;
+  font-size: 12px;
 }
 #logo{
   font-size: 18px;

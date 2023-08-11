@@ -29,6 +29,7 @@
       </div>
     </div>
     <div id="cover">
+      <span id="show_success_alert" class="" role="alert"></span>
       <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
         <li class="nav-item w-50" role="presentation">
           <button class="nav-link active" id="btn_signin" data-bs-toggle="tab" data-bs-target="#sign_in"
@@ -59,33 +60,34 @@
         {{-- register --}}
         <div class="tab-pane fade" id="sign_up" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
           <form action="{{ route('admin_register') }}" method="POST" id="register_form">
-            @csrf
+            {{-- @csrf --}}
+            {{ csrf_field() }}
             <div class="mt-4" id="divicon">
               <i class="fa-solid fa-envelope" id="logo"></i>
               <input type="text" name="email" id="email" placeholder="Email">
               <span></span>
             </div>
-            <p class="invalid-feedback"></p>
+            <p class="invalid_feedback email_error"></p>
             <div class="mt-4" id="input">
               <i class="fa-solid fa-phone" id="logo"></i>
               <input type="text" name="phone" id="phone" placeholder="Phone">
               <span></span>
             </div>
-            <p class="invalid-feedback"></p>
+            <p class="invalid_feedback phone_error"></p>
             <div class="mt-4" id="input">
               <i class="fa-solid fa-lock" id="logo"></i>
               <input type="text" name="pass" id="pass" placeholder="Password">
               <span></span>
             </div>
-            <p class="invalid-feedback"></p>
+            <p class="invalid_feedback password_error"></p>
             <div class="mt-4" id="input">
             <i class="fa-solid fa-lock" id="logo"></i>
             <input type="text" name="cfpass" id="cfpass" placeholder="Confirm password">
             <span></span>
             </div>
-            <p class="invalid-feedback"></p>
+            <p class="invalid_feedback"></p>
             <div id="button" class="mt-2">
-              <button type="submit" value="Register" id="register_btn" class="btn btn-success mt-4">Register</button>
+              <button value="Login" id="register_btn" class="btn btn-success mt-4">Register</button>
             </div>
         </form>
         </div> 
@@ -108,24 +110,93 @@
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" 
     integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-
+    {{-- <script src="{{ asset('js/function.js') }}"></script> --}}
     <script>
-      $(document).ready(function(){
+      // $(document).ready(function(){
+      //   $("#register_btn").click(function(e){
+      //     e.preventDefault();
+      //     // alert('hello');
+      //     var _token = $("input[name='_token']").val();
+      //     var email = $("input[name='email']").val();
+      //     var phone = $("input[name='phone']").val();
+      //     var pass = $("input[name='pass']").val();
+      //     var cfpass = $("input[name='cfpass']").val();
+      //   })
+      //   $.ajax({
+      //     url: "{{ route('admin_register') }}",
+      //     type: "POST",
+      //     data: {email:email, phone:phone, pass:pass, cfpass:cfpass},
+      //     success: function(data){
+      //       if($.isEmptyObject(data.errors)){
+      //         $(".invalid_feedback").html('');
+      //         alert(data.success);
+      //       }
+      //       else{
+      //         let resp = data.errors;
+      //         for(index in resp){
+      //           $(".invalid_feedback").html(resp[index]);
+      //         }
+      //       }
+      //     }
+      //   })
+      // })
+      
+      
+      $(function(){
         $("#register_form").submit(function(e){
+          // alert('Hello');
           e.preventDefault();
-          $("#register_btn").val('Please wait...');
+          $("#register_btn").text('Please wait...');
           $.ajax({
             url: '{{ route('admin_register') }}',
-            method: 'post',
+            type: 'POST',
             data: $(this).serialize(),
             dataType: 'json',
             success: function(res){
               console.log(res);
+              if(res.status == 400){
+                showError('email', res.messages.email);
+                showError('phone', res.messages.phone);
+                showError('pass', res.messages.pass);
+                showError('cfpass', res.messages.cfpass);
+              }
+              else if(res.status == 200){
+                $("#show-success-alert").html(showMessage('success', res.messages));
+                $("#register_form")[0].reset();
+                removeValidationClasses("#register_form");
+                $("#register_btn").text('Register');
+              }
             }
           })
         })
       })
     </script>
+    {{-- <script>
+      $(function(){
+        $('#register_form').on('submit', function(e){
+          e.preventDefault();
+
+          $.ajax({
+            url: $(this).attr('action'),
+            method: $(this).attr('method'),
+            data: new Formdata(this), 
+            processData: false,
+            dataType: 'json',
+            contenType: false,
+            beforeSend: function(){
+              $(document).find('p.invalid-feedback').text('');
+            },
+            success: function(data){
+              if(data.status == 400 ){
+                $.each(data.error, function(index, val){
+                  $('p.')
+                });
+              }
+            }
+          })
+        })
+      })
+    </script> --}}
 </body>
 
 </html>

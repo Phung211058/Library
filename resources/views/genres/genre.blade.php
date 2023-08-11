@@ -1,17 +1,19 @@
 @extends('layouts.app')
 @section('title', 'Genres')
+
 @section('content')
     <div id="menu">
-        <img src="{{ asset('images/joker1.png') }}" alt="">
+        <img id="titleimg" src="{{ asset('images/joker1.png') }}" alt="">
         <p class="mt-2">Hello Phung</p>
-    {{-- <ul>
-        <li>Information</li>
-        <li>List</li>
-        <li>Teachers</li>
-        <li>Students</li>
-    </ul> --}}
+    <ul>
+        <a href="/addReader/"><li>Reader list</li></a>
+        <a href="/genre/"><li>Genre list</li></a>
+        <a href="/books/"><li>Books list</li></a>
+        <a href="/category/"><li>Categories list</li></a>
+    </ul>
     <div id="btn">
-        <button id="add" name="add" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createForm">Add new</button>
+        <button id="add" name="add" class="btn btn-success" data-bs-toggle="modal" 
+                        data-bs-target="#createForm">Add new</button>
     </div>
     </div>
     <div id="option" class="row">
@@ -19,9 +21,8 @@
         <input type="text" name="search" class="form-control my-2" placeholder="Search" aria-label="Username" aria-describedby="basic-addon1">
         <button type="submit" class="btn btn-danger my-2 ms-1"><ion-icon name="search-outline"></ion-icon></button>
     </form>
-    {{-- <div class="col-2">Old book</div>
-    <div class="col-2"> New book</div> --}}
     </div>
+    {{-- Add --}}
     <div class="modal fade" id="createForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
         <div class="modal-content">
@@ -30,18 +31,20 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/genre" method="POST" style="display: inline">
+                <form action="/genres" id="add_form" method="POST" style="display: inline">
                     @csrf
-                    <input type="text" id="name" name="Genres_Name" class="form-control mt-3" placeholder="Name" aria-describedby="basic-addon1">
+                    <input type="text" id="Genres_Name" name="Genres_Name" class="form-control mt-3" placeholder="Name" aria-describedby="basic-addon1">
+                    <p class="mt-2 ms-2" id="error"></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Add</button>
+                <button type="button" id="close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" id="submit_add" class="btn btn-primary">Add</button>
                 </form>
             </div>
         </div>
         </div>
     </div>
+    {{-- Update --}}
     <div class="modal fade" id="updateForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -50,9 +53,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="/genre" method="POST" style="display: inline">
-                        @csrf
-                        <input type="text" name="name" class="form-control mt-3">
+                    <form action="/genre" method="POST" id="update_form" style="display: inline">
+                        @csrf @method('PUT')
+                        <input type="text" name="update_name" id="update_name" class="form-control mt-3">
                 </div> 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -69,7 +72,7 @@
             <th class="col-3">Action</th>
         </thead>
         <tbody>
-            @foreach($genres as $gen)
+            {{-- @foreach($genres as $gen)
             <tr>
                 <td>{{ $gen->id }}</td>
                 <td>{{ $gen->Genres_Name }}</td>
@@ -81,8 +84,91 @@
                     </form>
                 </td>
             </tr>
-            @endforeach
+            @endforeach --}}
         </tbody>
     </table>
-    
+@endsection
+
+@section('script')
+    <script>
+        $(document).ready(function(){
+
+            fetch_genres();
+            function fetch_genres()
+            {
+                $.ajax({
+                    type: "GET",
+                    url: '/fetch_genres',
+                    dataType: "json",
+                    success: function(response){
+                        console.log(response.genres);
+                    }
+                });
+            }
+
+
+            $(document).on('click', '#submit_add', function(e){
+                e.preventDefault();
+                // console.log('Hello World');
+                var data = {
+                    'Genres_Name': $('#Genres_Name').val()
+                }
+                // console.log(data);
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/genre',
+                    data: data,
+                    dataType: 'json',
+                    success: function(response){
+                        // console.log(response);  
+                        if(response.status == 400){
+                            // $('#error').html('');
+                            $('#error').addClass('text-danger');
+                            $.each(response.errors, function(key, val){
+                                $('#error').text(val);
+                            })
+                        }
+                        else {
+                            $('#error').removeClass('text-danger');
+                            $('#error').addClass('text-success');
+                            $('#error').text(response.message);
+                            // $('#add_form').find('input').text('');
+                            $('#Genres_Name').val('')
+                        }
+                    }
+                })
+
+            });
+
+            $(document).on('click', '#close', function(e){
+                e.preventDefault();
+                // console.log('Hello World');
+                $('#Genres_Name').val('');
+                $('#error').text('');
+            });
+
+
+
+            $(document).on('click', '#edit_btn', function(e){
+                e.preventDefault();
+                var idd = $(this).val();
+                $.ajax({
+                    type: "GET",
+                    url: "/edit-genre/"+idd,
+                    success: function (response){
+                        console.log(response);
+                        $('#update_name').val(response.genre.Genres_Name);
+                    }
+                });
+            });
+        });
+    </script>
+@endsection
     

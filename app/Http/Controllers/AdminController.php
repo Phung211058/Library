@@ -30,6 +30,7 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
+        // print_r($_POST);
         $validate = Validator::make($request->all(), [
             'email' => 'required|email|unique:users|max:100',
             'phone' => 'required|integer',
@@ -41,23 +42,39 @@ class AdminController extends Controller
             'cfpass.required' => 'Confirm password is required',
         ]);
 
-        if($validate->fails()){
-            return response()->json([
-                'status' => 400,
-                'messages' => $validate->getMessageBag()
-            ]);
-        }
-        else {
+        if($validate->passes()){
             $admin = new Admin();
-            $admin->email = $request->rg_email;
-            $admin->phone = $request->rg_phone;
-            $admin->password = Hash::make($request->rg_pass);
+            $admin->email = $request->email;
+            $admin->phone = $request->phone;
+            $admin->password = Hash::make($request->pass);
+            $admin->permission = 1;
             $admin->save();
             return response()->json([
-                'status' => 200,
-                'messages' => 'Registed Successfully',
+                'success' => 'Register Successfully'
             ]);
         }
+
+        return response()->json(['errors' => $validate->errors()]);
+
+        // if($validate->fails()){
+        //     return response()->json([
+        //         'status' => 400,
+        //         'messages' => $validate->getMessageBag()
+        //     ]);
+        // }
+
+        // else {
+        //     $admin = new Admin();
+        //     $admin->email = $request->email;
+        //     $admin->phone = $request->phone;
+        //     $admin->password = Hash::make($request->pass);
+        //     $admin->permission = 1;
+        //     $admin->save();
+            // return response()->json([
+            //     'status' => 200,
+            //     'messages' => 'Registed Successfully',
+            // ]);
+        // }
         // print_r($_POST);
     }
 
