@@ -61,8 +61,6 @@ class GenreController extends Controller
                 'message' => 'Success',
         ]);
         }
-
-
     }
 
     /**
@@ -80,10 +78,18 @@ class GenreController extends Controller
     public function edit(string $id)
     {
         $genre = Genre::find($id);
-        return response()->json([
-            'status' => 200,
-            'genre' => $genre, 
-        ]);
+        // if($genre){
+            return response()->json([
+                'status' => 200,
+                'genre' => $genre, 
+            ]);
+        // }
+        // else{
+        //     return response()->json([
+        //         'status' => 200,
+        //         'genre' => 'Edit successfully', 
+        //     ]);
+        // }
     }
 
     /**
@@ -91,14 +97,34 @@ class GenreController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $genre = Genre::find($id);
-        $genre->Genres_name = $request->update_name;
-        $genre->update();
-        return response()->json([
-            'status' => 200,
-            'message' => 'Successfully updated',
+        $validate = Validator::make($request->all(), [
+            'update_name' => 'required'
+        ],
+        [
+            'update_name.required' => 'The field does not empty',
         ]);
-        // return redirect('/genre');
+        if($validate->fails()){
+            return response()->json([
+                'status' => 405,
+                'errors' => $validate->messages(),
+            ]);
+        }
+        else{
+            $genre = Genre::find($id);
+            $genre->Genres_name = $request->update_name;
+            $genre->update();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Successfully updated',
+        ]);
+        }
+        // $genre = Genre::find($id);
+        // $genre->Genres_name = $request->update_name;
+        // $genre->update();
+        // return response()->json([
+        //     'status' => 200,
+        //     'message' => 'Successfully updated',
+        // ]);
     }
 
     /**
@@ -106,6 +132,7 @@ class GenreController extends Controller
      */
     public function destroy(string $id)
     {
+        
         $book = Genre::find($id);
         $book->delete();
         return redirect('/genre');
