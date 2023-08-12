@@ -12,6 +12,7 @@
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></head>
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 <style>
     
 </style>
@@ -40,7 +41,7 @@
           type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Sign up</button>
         </li>
       </ul>
-      {{-- Login --}}
+      {{-- Login form ______________________________________________________________________________________ --}}
       <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="sign_in" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
           <div class="mt-4" id="divicon">
@@ -57,17 +58,18 @@
             <button class="btn btn-primary mt-4">Login</button>
           </div>
         </div>
-        {{-- register --}}
+        {{-- register form __________________________________________________________________________________ --}}
         <div class="tab-pane fade" id="sign_up" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-          <form action="{{ route('admin_register') }}" method="POST" id="register_form">
-            {{-- @csrf --}}
-            {{ csrf_field() }}
             <div class="mt-4" id="divicon">
               <i class="fa-solid fa-envelope" id="logo"></i>
               <input type="text" name="email" id="email" placeholder="Email">
               <span></span>
             </div>
-            <p class="invalid_feedback email_error"></p>
+            
+              @error('email')
+              <p class="">{{ $message }}</p> 
+              @enderror
+            
             <div class="mt-4" id="input">
               <i class="fa-solid fa-phone" id="logo"></i>
               <input type="text" name="phone" id="phone" placeholder="Phone">
@@ -87,9 +89,8 @@
             </div>
             <p class="invalid_feedback"></p>
             <div id="button" class="mt-2">
-              <button value="Login" id="register_btn" class="btn btn-success mt-4">Register</button>
+              <button value="" id="register_btn" class="btn btn-success mt-4">Register</button>
             </div>
-        </form>
         </div> 
       </div>
     </div>
@@ -110,93 +111,36 @@
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" 
     integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-    {{-- <script src="{{ asset('js/function.js') }}"></script> --}}
+
     <script>
-      // $(document).ready(function(){
-      //   $("#register_btn").click(function(e){
-      //     e.preventDefault();
-      //     // alert('hello');
-      //     var _token = $("input[name='_token']").val();
-      //     var email = $("input[name='email']").val();
-      //     var phone = $("input[name='phone']").val();
-      //     var pass = $("input[name='pass']").val();
-      //     var cfpass = $("input[name='cfpass']").val();
-      //   })
-      //   $.ajax({
-      //     url: "{{ route('admin_register') }}",
-      //     type: "POST",
-      //     data: {email:email, phone:phone, pass:pass, cfpass:cfpass},
-      //     success: function(data){
-      //       if($.isEmptyObject(data.errors)){
-      //         $(".invalid_feedback").html('');
-      //         alert(data.success);
-      //       }
-      //       else{
-      //         let resp = data.errors;
-      //         for(index in resp){
-      //           $(".invalid_feedback").html(resp[index]);
-      //         }
-      //       }
-      //     }
-      //   })
-      // })
-      
-      
-      $(function(){
-        $("#register_form").submit(function(e){
-          // alert('Hello');
+      $(document).ready(function(){
+        $(document).on('click', '#register_btn', function(e){
           e.preventDefault();
-          $("#register_btn").text('Please wait...');
+          // alert('Hello! Register');
+          var data = {
+            'email': $('#email').val(),
+            'phone': $('#phone').val(),
+            'pass': $('#pass').val(),
+            'cfpass': $('#cfpass').val(),
+          }
+
+          $.ajaxSetup({
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+           });
+
           $.ajax({
-            url: '{{ route('admin_register') }}',
             type: 'POST',
-            data: $(this).serialize(),
+            url: '/login',
+            data: data,
             dataType: 'json',
-            success: function(res){
-              console.log(res);
-              if(res.status == 400){
-                showError('email', res.messages.email);
-                showError('phone', res.messages.phone);
-                showError('pass', res.messages.pass);
-                showError('cfpass', res.messages.cfpass);
-              }
-              else if(res.status == 200){
-                $("#show-success-alert").html(showMessage('success', res.messages));
-                $("#register_form")[0].reset();
-                removeValidationClasses("#register_form");
-                $("#register_btn").text('Register');
-              }
+            success: function(response){
+              console.log(response);
             }
           })
         })
       })
     </script>
-    {{-- <script>
-      $(function(){
-        $('#register_form').on('submit', function(e){
-          e.preventDefault();
-
-          $.ajax({
-            url: $(this).attr('action'),
-            method: $(this).attr('method'),
-            data: new Formdata(this), 
-            processData: false,
-            dataType: 'json',
-            contenType: false,
-            beforeSend: function(){
-              $(document).find('p.invalid-feedback').text('');
-            },
-            success: function(data){
-              if(data.status == 400 ){
-                $.each(data.error, function(index, val){
-                  $('p.')
-                });
-              }
-            }
-          })
-        })
-      })
-    </script> --}}
-</body>
-
+  </body>
 </html>

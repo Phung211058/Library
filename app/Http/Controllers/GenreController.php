@@ -135,6 +135,9 @@ class GenreController extends Controller
         
         $book = Genre::find($id);
         $book->delete();
-        return redirect('/genre');
+        return response()->json([
+            'status' => 200,
+            'message' => 'Deleted successfully',
+        ]);
     }
 }

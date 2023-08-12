@@ -38,44 +38,29 @@ class AdminController extends Controller
             'cfpass' => 'required|min:8|same:pass',
         ],
         [
+            'email.unique' => 'this email have existed already',
             'cfpass.same' => 'Password did not matched',
             'cfpass.required' => 'Confirm password is required',
         ]);
 
-        if($validate->passes()){
-            $admin = new Admin();
-            $admin->email = $request->email;
-            $admin->phone = $request->phone;
-            $admin->password = Hash::make($request->pass);
-            $admin->permission = 1;
-            $admin->save();
+        if($validate->fails()){
             return response()->json([
-                'success' => 'Register Successfully'
+                'status' => 200,
+                'errors' => $validate->messages(),
             ]);
         }
-
-        return response()->json(['errors' => $validate->errors()]);
-
-        // if($validate->fails()){
-        //     return response()->json([
-        //         'status' => 400,
-        //         'messages' => $validate->getMessageBag()
-        //     ]);
-        // }
-
-        // else {
-        //     $admin = new Admin();
-        //     $admin->email = $request->email;
-        //     $admin->phone = $request->phone;
-        //     $admin->password = Hash::make($request->pass);
-        //     $admin->permission = 1;
-        //     $admin->save();
-            // return response()->json([
-            //     'status' => 200,
-            //     'messages' => 'Registed Successfully',
-            // ]);
-        // }
-        // print_r($_POST);
+        else{
+            $account = new Admin();
+            $account->email = $request->email;
+            $account->phone = $request->phone;
+            $account->password = $request->pass;
+            $account->permission = 1;
+            $account->save();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Successfully',
+            ]);
+        };
     }
 
     /**

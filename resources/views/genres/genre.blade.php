@@ -114,13 +114,13 @@
                                 <td>'+val.Genres_Name+'</td>\
                                 <td>\
                                     <button type="submit" value="'+val.id+'" class="btn btn-warning" id="edit_btn" data-bs-toggle="modal" data-bs-target="#updateForm">Edit</button>\
-                                        <button type="submit" value="'+val.id+'" class="btn btn-danger" onclick="return confirm("Do you want to delete")">Delete</button>\
+                                    <button type="submit" value="'+val.id+'" class="btn btn-danger" id="delete_btn" onclick="return confirm("Do you want to delete")">Delete</button>\
                                 </td>\
                             </tr>');
                         });
                     }
                 });
-            }
+            };
             // -----------------------------------------------------------------------------------------------------
             
             // function to add a new ------------------------------------------------------------------------------
@@ -144,7 +144,7 @@
                     data: data,
                     dataType: 'json',
                     success: function(response){
-                        console.log(response);  
+                        // console.log(response);  
                         if(response.status == 400){
                             // $('#error').html('');
                             $('#error').addClass('text-danger');
@@ -205,9 +205,9 @@
                     'update_name' : $('#update_name').val(),
                 };
                 $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
                 });
                 $.ajax({
                     type: 'PUT',
@@ -218,7 +218,7 @@
                         if(response.status == 405){
                             $('#errorup').addClass('text-danger');
                             $.each(response.errors, function(key, val){
-                                $('#error').text(val);
+                                $('#errorup').text(val);
                             })
                         }
                         else{
@@ -231,6 +231,25 @@
                     });
             //---------------------------------------------------------------------------------------------------------------------
 
+            $(document).on('click', '#delete_btn', function(e){
+                e.preventDefault();
+                var id = $(this).val();
+                alert('Do you want to delete?');
+                $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                });
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/delete-genre/'+id,
+                    dataType: 'json',
+                    success: function(response){
+                        console.log(response);
+                        fetch_genres();
+                    }
+                });
+            })
 
         });
     </script>

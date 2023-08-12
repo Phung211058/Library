@@ -53,7 +53,7 @@ class BookController extends Controller
         // $book->caption = $request->Caption;
         $book->author = $request->Author;
         $book->publishing_year = $request->Publishing_year;
-        $book->Number_of_pages =  $request->Number_of_pages;
+        $book->number_of_pages =  $request->Number_of_pages;
         $book->save();
         return redirect('/books');
     }
@@ -81,15 +81,22 @@ class BookController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        if($request->has('update_Image')){
+            $file = $request->update_Image;
+            $file_name = $file->getClientoriginalName();
+            // dd($file_name);
+            $file->move(public_path('images'), $file_name);
+        }
+        $request->merge(['image' => $file_name]);
         $book = Book::find($id);
-        $book->Image = $request->update_Image; 
+        $book->image = $request->update_Image; 
         $book->genre_id = $request->genre_id;
         $book->book_name = $request->update_Book_Name;
         $book->parallel_name = $request->update_Parallel_name;
         // $book->caption = $request->update_Caption;
         $book->author = $request->update_Author;
         $book->publishing_year = $request->update_Publishing_year;
-        $book->Number_of_pages =  $request->update_Number_of_pages;
+        $book->number_of_pages =  $request->update_Number_of_pages;
         $book->save();
         return redirect('/books')->with('success', 'edit successfully');
     }

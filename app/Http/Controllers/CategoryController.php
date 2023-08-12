@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -14,6 +15,15 @@ class CategoryController extends Controller
     {
         $cate = Category::all();
         return view('categories.category', compact('cate'));
+    }
+
+    public function fetch_cate()
+    { 
+        $cate = Category::all();
+        return response()->json([
+            'status' => 100,
+            'cate' => $cate
+        ]);
     }
 
     /**
@@ -29,10 +39,27 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $cate = new Category();
-        $cate->Name = $request->category;
-        $cate->save();
-        return redirect('/category');
+        $validate = Validator::make($request->all(), [
+            'cate_name' => 'required',
+        ],
+        [
+            'cate_name.required' => 'This field is not empty',
+        ]);
+        if($validate->fails()) {
+            return response()->json([
+                'status' => 400,
+                'errors' => $validate->messages(),
+            ]);
+        }
+        else{
+            $cate = new Category();
+            $cate->name = $request->cate_name;
+            $cate->save();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Successfully',
+            ]);
+        }
     }
 
     /**
@@ -48,7 +75,11 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $cate = Category::find($id);
+        return response()->json([
+            'status' => 200,
+            'cate' => $cate,
+        ]);
     }
 
     /**
@@ -56,7 +87,28 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validate = Validator::make($request->all(), [
+            'update_cate' => 'required'
+        ],
+        [
+            'update_cate.required' => 'The field does not empty',
+        ]
+    );
+    if ($validate->fails()){
+        return response()->json([
+            'status' => 405,
+            'errors' => $validate->messages(),
+        ]);
+    }
+    else{
+        $cate = Category::find($id);
+        $cate->name = $request->update_cate;
+        $cate->update();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Successfully updated',
+    ]);
+    }
     }
 
     /**
@@ -64,6 +116,12 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $cate = Category::find($id);
+        $cate->delete();
+        // return redirect('/category');
+        return response()->json([
+            'status' => 200,
+            'message' => 'deleted successfully'
+        ]);
     }
 }

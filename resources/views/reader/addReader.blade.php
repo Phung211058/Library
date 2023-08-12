@@ -55,7 +55,8 @@
           </form>
           <button class="btn btn-secondary ms-3" data-bs-toggle="modal" data-bs-target="#createForm">Add reader</button>
 
-          <button class="btn btn-primary ms-3 me-5">Log out</button>
+          <a href="/login/"><button class="btn btn-primary ms-3 me-5">Log out</button></a>
+          
         </div>
       </div>
     </nav>
