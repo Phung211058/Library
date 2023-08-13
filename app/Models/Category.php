@@ -13,6 +13,6 @@ class Category extends Model
         'Name',
     ];
     public function books() {
-        
+        return $this->belongsToMany(Book::class);
     }
 }

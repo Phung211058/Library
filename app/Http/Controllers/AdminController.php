@@ -54,44 +54,54 @@ class AdminController extends Controller
             $account->email = $request->email;
             $account->phone = $request->phone;
             $account->password = $request->pass;
-            $account->permission = 1;
+            $account->role = 1;
             $account->save();
             return response()->json([
-                'status' => 200,
+                'status' => 400,
                 'message' => 'Successfully',
             ]);
         };
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        
-    }
+    public function login(Request $request){
+        $validate = Validator::make($request->all(),[
+            'log_email' => 'required|email',
+            'log_pass' => 'required',
+        ],
+        [
+            'log_email.required' => 'the field can not be empty',
+            'log_pass.required' => 'the field can not be empty',
+        ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        if($validate->fails()){
+            return response()->json([
+                'status' => 400,
+                'message' => $validate->messages(),
+            ]);
+        }
+        else{
+            $account = Admin::where('email', $request->log_email)->first();
+            if($account){
+                if($request->log_pass == $account->password){
+                    $request->session()->put('logged', $account->id);
+                    return response()->json([
+                        'status' => 200,
+                        'message' => 'success',
+                    ]);
+                }
+                else{
+                    return response()->json([
+                        'status' => 401,
+                        'message' => 'Email or password is incorrect!',
+                    ]);
+                }
+            }
+            else{
+                return response()->json([
+                    'status' => 401,
+                    'message' => 'User does not exist!',
+                ]);
+            }
+        }
     }
 }

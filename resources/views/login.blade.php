@@ -30,7 +30,7 @@
       </div>
     </div>
     <div id="cover">
-      <span id="show_success_alert" class="" role="alert"></span>
+      {{-- <span id="show_success_alert" class="" role="alert"></span> --}}
       <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
         <li class="nav-item w-50" role="presentation">
           <button class="nav-link active" id="btn_signin" data-bs-toggle="tab" data-bs-target="#sign_in"
@@ -46,16 +46,17 @@
         <div class="tab-pane fade show active" id="sign_in" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
           <div class="mt-4" id="divicon">
             <i class="fa-solid fa-envelope" id="logo"></i>
-            <input type="text" placeholder="Email">
+            <input type="text" id="log_email" placeholder="Email">
             <span></span>
           </div>
           <div class="mt-4" id="input">
             <i class="fa-solid fa-lock" id="logo"></i>
-            <input type="text" placeholder="Password">
+            <input type="text" id="log_pass" placeholder="Password">
             <span></span>
           </div>
+          <p class="mt-3 text-center text-danger" id="log_error">tinfh yeu</p>
           <div id="button" class="mt-2">
-            <button class="btn btn-primary mt-4">Login</button>
+            <button id="login_btn" class="btn btn-primary mt-2">Login</button>
           </div>
         </div>
         {{-- register form __________________________________________________________________________________ --}}
@@ -65,29 +66,25 @@
               <input type="text" name="email" id="email" placeholder="Email">
               <span></span>
             </div>
-            
-              @error('email')
-              <p class="">{{ $message }}</p> 
-              @enderror
-            
+            <p class="email_err"></p> 
             <div class="mt-4" id="input">
               <i class="fa-solid fa-phone" id="logo"></i>
               <input type="text" name="phone" id="phone" placeholder="Phone">
               <span></span>
             </div>
-            <p class="invalid_feedback phone_error"></p>
+            <p class="phone_err"></p>
             <div class="mt-4" id="input">
               <i class="fa-solid fa-lock" id="logo"></i>
               <input type="text" name="pass" id="pass" placeholder="Password">
               <span></span>
             </div>
-            <p class="invalid_feedback password_error"></p>
+            <p class="pass_err"></p>
             <div class="mt-4" id="input">
             <i class="fa-solid fa-lock" id="logo"></i>
             <input type="text" name="cfpass" id="cfpass" placeholder="Confirm password">
             <span></span>
             </div>
-            <p class="invalid_feedback"></p>
+            <p class="cfpass_err"></p>
             <div id="button" class="mt-2">
               <button value="" id="register_btn" class="btn btn-success mt-4">Register</button>
             </div>
@@ -116,7 +113,6 @@
       $(document).ready(function(){
         $(document).on('click', '#register_btn', function(e){
           e.preventDefault();
-          // alert('Hello! Register');
           var data = {
             'email': $('#email').val(),
             'phone': $('#phone').val(),
@@ -132,15 +128,53 @@
 
           $.ajax({
             type: 'POST',
-            url: '/login',
+            url: '/register',
             data: data,
             dataType: 'json',
             success: function(response){
-              console.log(response);
+              if(response.status == 200){
+                showerr(response.errors);
+              }
+              else{
+                clearerr();
+              }
             }
           })
         })
+
+        $(document).on('click', 'login_btn', function(e){
+          e.preventDefault();
+          var data = {
+            'log_email': $('#log_email').val(),
+            'log_pass': $('#log_pass').val(),
+          }
+          $.ajaxSetup({
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+          });
+          $.ajax({
+            type: 'POST',
+            url: '/login',
+            data: data,
+            dataType: 'json',
+            success: function(response) {
+              console.log(response);
+            }
+           })
+        })
       })
+
+      function showerr(errors){
+        $.each(errors, function(key, value){
+                $('.'+key+'_err').text(value);
+      })}
+      function clearerr(){
+        $('#email_err').text('');
+        $('phone_err').text('');
+        $('#pass_err').text('');
+        $('#cfpass_err').text('');
+      }
     </script>
   </body>
 </html>

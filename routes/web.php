@@ -24,8 +24,10 @@ use Illuminate\Support\Facades\Route;
 // });
 
 // login_____________________________________________________________________
-Route::resource('/login', AdminController::class);
-Route::post('/login', [AdminController::class, 'store']);
+Route::get('/login', [AdminController::class, 'index']);
+Route::post('/register', [AdminController::class, 'store']);
+Route::post('/login', [AdminController::class, 'login']);
+
 //___________________________________________________________________________
 
 // book _____________________________________________________________________

@@ -55,8 +55,13 @@
                     <input type="text" id="" name="Parallel_name" class="form-control mt-3" placeholder="Parallel Name" aria-describedby="basic-addon1">
                     {{-- <input type="text" id="" name="Caption" class="form-control mt-3" placeholder="Caption" aria-describedby="basic-addon1"> --}}
                     <input type="text" id="" name="Author" class="form-control mt-3" placeholder="Author" aria-describedby="basic-addon1">
+                    <select class="form-select mt-3" name="categories[]" id="" multiple>
+                        @foreach ($category as $cate)
+                            <option value="{{ $cate->id }}">{{ $cate->name }}</option>
+                        @endforeach
+                    </select>
                     <input type="text" id="" name="Publishing_year" class="form-control mt-3" placeholder="Publishing year" aria-describedby="basic-addon1">
-                    <input type="text" id="" name="Number_of_pages" class="form-control mt-3" placeholder="Number of page" aria-describedby="basic-addon1">
+                    <input type="text" id="" name="Number_of_pages" class="form-control mt-3" placeholder="Number of pages" aria-describedby="basic-addon1">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

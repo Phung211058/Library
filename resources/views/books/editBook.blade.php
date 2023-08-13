@@ -48,12 +48,13 @@
                 <Span class="mt-4">Name</Span>
                 <input name="update_Book_Name" type="text" class="form-control mt-3" value="{{ $book->Book_Name }}">
             </div>
-        </div>
-        <div class="col-6">
             <div id="content">
                 <Span class="mt-2">Parallel Name</Span>
                 <input name="update_Parallel_name" type="text" class="form-control mt-3" value="{{ $book->Parallel_name }}">
             </div>
+        </div>
+        <div class="col-6">
+            
             {{-- <div id="content">
                 <Span class="mt-3">Caption</Span>
                 <input name="update_Caption" type="text" class="form-control mt-1" value="{{ $book->Caption }}">
@@ -69,6 +70,14 @@
             <div id="content">
                 <Span class="mt-2">Number of pages</Span>
                 <input name="update_Number_of_pages" type="text" class="form-control mt-3" value="{{ $book->Number_of_pages }}">
+            </div>
+            <div id="content">
+                <Span class="mt-5">Category</Span>
+                <select name="tags[]" id="tags" class="form-control mt-3" multiple>
+                    @foreach($cate as $cate)
+                        <option value="{{$cate->id}}" @if(in_array($cate->id, $book->categories->pluck('id')->toArray())) selected @endif>{{$cate->name}}</option>
+                    @endforeach
+                </select>
             </div>
         </div>
     </div>

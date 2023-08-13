@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Category;
 use App\Models\Genre;
 use Illuminate\Http\Request;
 
@@ -14,6 +15,7 @@ class BookController extends Controller
     public function index(Request $request)
     {
         $genre = Genre::all();
+        $category = Category::all();
         $search = $request['search'];
         if ($search != '') {
             $book = Book::where('Book_Name', 'LIKE', "%$search%")->orwhere('Parallel_Name', 'LIKE', "%$search%")->orwhere('Author', 'LIKE', "%$search%")->get();
@@ -21,7 +23,7 @@ class BookController extends Controller
         else{
             $book = Book::all();
         }
-        return view('books.book', compact('book','genre'));
+        return view('books.book', compact('book','genre', 'category'));
     }
 
     /**
@@ -55,7 +57,9 @@ class BookController extends Controller
         $book->publishing_year = $request->Publishing_year;
         $book->number_of_pages =  $request->Number_of_pages;
         $book->save();
+        $book->categories()->attach($request->categories);
         return redirect('/books');
+        
     }
 
     /**
@@ -73,7 +77,8 @@ class BookController extends Controller
     {
         $book = Book::find($id);
         $genre = Genre::all();
-        return view('books.editBook', compact('book', 'genre'));
+        $cate = Category::all();
+        return view('books.editBook', compact('book', 'genre', 'cate'));
     }
 
     /**
@@ -82,14 +87,17 @@ class BookController extends Controller
     public function update(Request $request, string $id)
     {
         if($request->has('update_Image')){
-            $file = $request->update_Image;
-            $file_name = $file->getClientoriginalName();
-            // dd($file_name);
-            $file->move(public_path('images'), $file_name);
+            $files = $request->update_Image;
+            // dd($file);
+            $file_nam = $files->getClientoriginalName();
+            // dd($file_nam);
+            $files->move(public_path('images'), $file_nam);
+            $request->merge(['upimage' => $file_nam]);
+            // dd($request->all());
         }
-        $request->merge(['image' => $file_name]);
+        
         $book = Book::find($id);
-        $book->image = $request->update_Image; 
+        $book->image = $request->upimage; 
         $book->genre_id = $request->genre_id;
         $book->book_name = $request->update_Book_Name;
         $book->parallel_name = $request->update_Parallel_name;
@@ -97,6 +105,7 @@ class BookController extends Controller
         $book->author = $request->update_Author;
         $book->publishing_year = $request->update_Publishing_year;
         $book->number_of_pages =  $request->update_Number_of_pages;
+        $book->categories()->attach($request->categories);
         $book->save();
         return redirect('/books')->with('success', 'edit successfully');
     }
