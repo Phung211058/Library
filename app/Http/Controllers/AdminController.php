@@ -53,7 +53,7 @@ class AdminController extends Controller
             $account = new Admin();
             $account->email = $request->email;
             $account->phone = $request->phone;
-            $account->password = $request->pass;
+            $account->password = Hash::make($request->pass);
             $account->role = 1;
             $account->save();
             return response()->json([
@@ -69,37 +69,37 @@ class AdminController extends Controller
             'log_pass' => 'required',
         ],
         [
-            'log_email.required' => 'the field can not be empty',
-            'log_pass.required' => 'the field can not be empty',
+            'log_email.required' => 'The field can not be empty',
+            'log_pass.required' => 'The field can not be empty',
         ]);
 
         if($validate->fails()){
             return response()->json([
                 'status' => 400,
-                'message' => $validate->messages(),
+                'errors' => $validate->messages(),
             ]);
         }
         else{
             $account = Admin::where('email', $request->log_email)->first();
             if($account){
-                if($request->log_pass == $account->password){
-                    $request->session()->put('logged', $account->id);
+                if(Hash::check($request->log_pass, $account->password)){
+                    $request->session()->put('loggedOn', $account->id);
                     return response()->json([
                         'status' => 200,
-                        'message' => 'success',
+                        'message' => 'Success',
                     ]);
                 }
                 else{
                     return response()->json([
                         'status' => 401,
-                        'message' => 'Email or password is incorrect!',
+                        'errors' => 'Email or password is incorrect!',
                     ]);
                 }
             }
             else{
                 return response()->json([
                     'status' => 401,
-                    'message' => 'User does not exist!',
+                    'errors' => 'User does not exist!',
                 ]);
             }
         }

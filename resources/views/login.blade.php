@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 <style>
-    
+
 </style>
 <body>
   <header>
@@ -31,6 +31,9 @@
     </div>
     <div id="cover">
       {{-- <span id="show_success_alert" class="" role="alert"></span> --}}
+    {{-- <p class="bg-success">egdbsvcsdergf</p> --}}
+    <div class="alert alert-success" role="alert">sfsdfterterg</div>`
+
       <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
         <li class="nav-item w-50" role="presentation">
           <button class="nav-link active" id="btn_signin" data-bs-toggle="tab" data-bs-target="#sign_in"
@@ -46,15 +49,15 @@
         <div class="tab-pane fade show active" id="sign_in" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
           <div class="mt-4" id="divicon">
             <i class="fa-solid fa-envelope" id="logo"></i>
-            <input type="text" id="log_email" placeholder="Email">
+            <input type="text" name="log_email" id="log_email" placeholder="Email">
             <span></span>
           </div>
           <div class="mt-4" id="input">
             <i class="fa-solid fa-lock" id="logo"></i>
-            <input type="text" id="log_pass" placeholder="Password">
+            <input type="password" name="log_pass" id="log_pass" placeholder="Password">
             <span></span>
           </div>
-          <p class="mt-3 text-center text-danger" id="log_error">tinfh yeu</p>
+          <p class="mt-3 text-center text-danger" id="log_error"></p>
           <div id="button" class="mt-2">
             <button id="login_btn" class="btn btn-primary mt-2">Login</button>
           </div>
@@ -75,13 +78,13 @@
             <p class="phone_err"></p>
             <div class="mt-4" id="input">
               <i class="fa-solid fa-lock" id="logo"></i>
-              <input type="text" name="pass" id="pass" placeholder="Password">
+              <input type="password" name="pass" id="pass" placeholder="Password">
               <span></span>
             </div>
             <p class="pass_err"></p>
             <div class="mt-4" id="input">
             <i class="fa-solid fa-lock" id="logo"></i>
-            <input type="text" name="cfpass" id="cfpass" placeholder="Confirm password">
+            <input type="password" name="cfpass" id="cfpass" placeholder="Confirm password">
             <span></span>
             </div>
             <p class="cfpass_err"></p>
@@ -136,13 +139,14 @@
                 showerr(response.errors);
               }
               else{
+                $('.alert').text('Registration Success')
                 clearerr();
               }
             }
           })
         })
 
-        $(document).on('click', 'login_btn', function(e){
+        $(document).on('click', '#login_btn', function(e){
           e.preventDefault();
           var data = {
             'log_email': $('#log_email').val(),
@@ -160,6 +164,21 @@
             dataType: 'json',
             success: function(response) {
               console.log(response);
+              if(response.status = 400){
+                $.each(response.errors, function(key, value) {
+                  $('#log_error').text(value);
+                });
+              }
+              else if(response.status == 401) {
+                $.each(response.errors, function(key, value) {
+                  $('#log_error').text(value);
+                });
+              }
+              else{
+                
+                $('#login_btn').text('Please waite...');
+                window.open('/books');
+              }
             }
            })
         })
@@ -167,13 +186,18 @@
 
       function showerr(errors){
         $.each(errors, function(key, value){
-                $('.'+key+'_err').text(value);
+          $('.'+key+'_err').text(value);
       })}
       function clearerr(){
-        $('#email_err').text('');
-        $('phone_err').text('');
-        $('#pass_err').text('');
-        $('#cfpass_err').text('');
+        $('#email').val('');
+        $('#phone').val('');
+        $('#pass').val('');
+        $('#cfpass').val('');
+
+        $('.email_err').text('');
+        $('.phone_err').text('');
+        $('.pass_err').text('');
+        $('.cfpass_err').text('');
       }
     </script>
   </body>
