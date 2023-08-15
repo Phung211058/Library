@@ -118,13 +118,6 @@ class GenreController extends Controller
                 'message' => 'Successfully updated',
         ]);
         }
-        // $genre = Genre::find($id);
-        // $genre->Genres_name = $request->update_name;
-        // $genre->update();
-        // return response()->json([
-        //     'status' => 200,
-        //     'message' => 'Successfully updated',
-        // ]);
     }
 
     /**

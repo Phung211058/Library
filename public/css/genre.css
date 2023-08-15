@@ -13,7 +13,10 @@
 a{
     text-decoration: none;
 }
-div ul li{
+li{
+    list-style: none;
+}
+/* div ul li{
     width: 100%;
     list-style: none;
     margin: 0 0 8% -10%;
@@ -23,11 +26,11 @@ div ul li{
     color:darkslategray;
     text-align: center;
     font-size: 24px;
-}
-div ul li:hover{
+} */
+/* div ul li:hover{
     background-color: darkgray;
     color: rgb(78, 51, 12);
-}
+} */
 #menu p{
     text-align: center
 }
@@ -60,10 +63,11 @@ div ul li:hover{
 }
 .table{
     position: absolute;
-    width: 85%;
+    width: 100%;
     right: 0;
     top: 9%;
     z-index: -1;
+    text-align: center;
 }
 .alert{
     margin: 10px 0 0 20px;

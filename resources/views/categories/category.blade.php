@@ -1,25 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Category')
+@section('main', 'Category')
 @section('content')
-    <div id="menu">
-        <img id="titleimg" src="{{ asset('images/joker1.png') }}" alt="">
-        <p class="mt-2">Hello Phung</p>
-    <ul>
-        <a href="/addReader/"><li>Reader list</li></a>
-        <a href="/genre/"><li>Genre list</li></a>
-        <a href="/books/"><li>Books list</li></a>
-        <a href="/category/"><li>Categories list</li></a>
-    </ul>
-    <div id="btn">
-        <button id="add" name="add" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createForm">Add new</button>
-    </div>
-    </div>
-    <div id="option" class="row">
-    <form class="col-8" id="form">
-        <input type="text" name="search" class="form-control my-2" placeholder="Search" aria-label="Username" aria-describedby="basic-addon1">
-        <button type="submit" class="btn btn-danger my-2 ms-1"><ion-icon name="search-outline"></ion-icon></button>
-    </form>
-    </div>
     {{-- Add form ----------------------------------------------------------------------------------------------------- --}}
     <div class="modal fade" id="createForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -29,15 +11,12 @@
             <button type="button" id="close" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                {{-- <form action="/category" method="POST" style="display: inline">
-                    @csrf --}}
                     <input type="text" id="cate_name" name="category" class="form-control mt-3" placeholder="Name" aria-describedby="basic-addon1">
                     <p class="mt-2 ms-2 " id="error"></p>
                 </div>
             <div class="modal-footer">
                 <button type="button" id="btn_close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="submit" id="add_cate" class="btn btn-primary">Add</button>
-                {{-- </form> --}}
             </div>
         </div>
         </div>
@@ -53,8 +32,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    {{-- <form action="/genre" method="POST" style="display: inline">
-                        @csrf @method('PUT') --}}
                         <input type="text" name="update_id" id="update_id" class="form-control mt-3" disabled>
                         <input type="text" name="update_cate" id="update_cate" class="form-control mt-3">
                         <p class="mt-2 ms-2 " id="errorup"></p>
@@ -62,32 +39,18 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" id="update_btn" class="btn btn-primary">Update</button>
-                    {{-- </form> --}}
                 </div>
             </div>
         </div>
     </div>
     {{-- --------------------------------------------------------------------------------------------------------- --}}
-    <table class="table">
-        <thead class="table-dark">
+    <table class="table table-hover">
+        <thead class="table-secondary">
             <th class="col-2">Id</th>
             <th class="col-7">Name</th>
             <th class="col-3">Action</th>
         </thead>
         <tbody>
-            {{-- @foreach($cate as $cate)
-            <tr>
-                <td>{{ $cate->id }}</td>
-                <td>{{ $cate->name }}</td>
-                <td>
-                    <button type="submit" class="btn btn-warning" id="edit_btn" value="{{ $cate->id }}" data-bs-toggle="modal" data-bs-target="#updateForm">Edit</button>
-                    <form action="/category/{{ $cate->id }}" method="POST" style="display: inline">
-                        @csrf @method('delete')
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Do you want to delete')">Delete</button>
-                    </form>
-                </td>
-            </tr>
-            @endforeach --}}
         </tbody>
     </table>
 @endsection
@@ -243,4 +206,3 @@
         });
     </script>
 @endsection
-{{-- </html> --}}

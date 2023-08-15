@@ -32,7 +32,7 @@
     <div id="cover">
       {{-- <span id="show_success_alert" class="" role="alert"></span> --}}
     {{-- <p class="bg-success">egdbsvcsdergf</p> --}}
-    <div class="alert alert-success" role="alert">sfsdfterterg</div>`
+    <div class="alert" role="alert"></div>`
 
       <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
         <li class="nav-item w-50" role="presentation">
@@ -139,7 +139,7 @@
                 showerr(response.errors);
               }
               else{
-                $('.alert').text('Registration Success')
+                $('.alert').addClass('alert-success').text('Registration Success');
                 clearerr();
               }
             }
