@@ -1,6 +1,6 @@
 @extends('layouts.app')
-@section('title', 'Genres')
-@section('main', 'Genres')
+@section('title', 'Books')
+@section('main', 'Books')
 @section('content')
     @if(session('success'))
     <p class="alert alert-success col-4">
@@ -72,7 +72,9 @@
                 <td>{{ $book->Publishing_year }}</td>
                 <td>{{ $book->Number_of_pages }}</td>
                 <td>
-                    <a href="/books/{{$book->id}}/edit"><button type="submit" class="btn btn-warning" id="edit_btn" value="{{ $book->id }}">Edit</button></a>
+                    <a href="/books/{{$book->id}}/edit">
+                        <button type="submit" class="btn btn-warning" id="edit_btn" value="{{ $book->id }}">Edit</button>
+                    </a>
                     <form action="/books/{{ $book->id }}" method="POST" style="display: inline">
                         @csrf @method('delete')
                         <button type="submit" value="delete" class="btn btn-danger" onclick="return confirm('Do you want to delete')">Delete</button>

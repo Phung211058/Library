@@ -47,6 +47,7 @@ Route::delete('delete-genre/{id}', [GenreController::class, 'destroy']);
 
 // reader_____________________________________________________________________
 Route::resource('/addReader', ReaderController::class);
+Route::get('addReader/{id}', [ReaderController::class, 'edit']);
 //____________________________________________________________________________
 
 // category___________________________________________________________________

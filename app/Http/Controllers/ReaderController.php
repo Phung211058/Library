@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Reader;
 use Illuminate\Http\Request;
 
 class ReaderController extends Controller
@@ -11,7 +12,9 @@ class ReaderController extends Controller
      */
     public function index()
     {
-        return view('reader.addReader');
+        $reader = Reader::all();
+
+        return view('reader.addReader', compact('reader'));
     }
 
     /**
@@ -27,7 +30,23 @@ class ReaderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if($request->has('Reader_image')){
+            $file = $request->Reader_image;
+            $file_name = $file->getClientoriginalName();
+            // dd($file_name);
+            $file->move(public_path('images'), $file_name);
+        }
+        $request->merge(['image' => $file_name]);
+        $reader = new Reader();
+        $reader->Image = $request->image;
+        $reader->name = $request->Reader_name;
+        $reader->gender = $request->Reader_gender;
+        $reader->age = $request->Reader_age;
+        $reader->email = $request->Reader_email;
+        $reader->phone = $request->Reader_phone;
+        $reader->reliability = 3;
+        $reader->save();
+        return redirect('/addReader');
     }
 
     /**
@@ -43,7 +62,8 @@ class ReaderController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $reader = Reader::find($id);
+        return view('reader.editReader', compact('reader'));
     }
 
     /**

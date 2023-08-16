@@ -10,12 +10,12 @@ class Reader extends Model
     use HasFactory;
     protected $table = 'readers';
     protected $fillable = [
-        'image',
-        'name',
-        'gender',
-        'age',
-        'email',
-        'phone',
-        'reliability',
+        'Image',
+        'Name',
+        'Gender',
+        'Age',
+        'Email',
+        'Phone',
+        'Reliability',
     ];
 }
