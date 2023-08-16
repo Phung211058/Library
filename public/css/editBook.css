@@ -1,6 +1,9 @@
 body{
     background-color:beige;
 }
+#r_form{
+    display: inline-flex;
+}
 #TitleImage{
     background-color: aqua;
     width: 200px;
@@ -20,12 +23,20 @@ body{
     /* transform: translateX(-50%); */
 }
 #main{
-    width: 60%;
+    width: 90%;
     position: relative;
-    left: 25%;
-    top: 0;
-    /* transform: translateX(-50%); */
+    left: 50%;
+    top: 30px;
+    transform: translateX(-50%);
     display: flex;
+}
+#r_main{
+    width: 64%;
+    position: relative;
+    left: 40%;
+    top: 10px;
+    display: flex;
+    transform: translateX(-50%);
 }
 #content{
     display: flex;
@@ -46,13 +57,14 @@ body{
 #action{
     width: 13%;
     position: relative;
-    left: 50%;
-    top: 70px;
-    transform: translateX(-50%);
+    /* left: 50%; */
+    right: 23%;
+    top: 254px;
+    /* transform: translateX(-50%); */
 }
 #cancel{
     position: relative;
-    left: 49%;
+    left: 45%;
     top: 32.5px;
     /* margin: 30px 0 0 0; */
 }

@@ -164,7 +164,7 @@
             dataType: 'json',
             success: function(response) {
               console.log(response);
-              if(response.status = 400){
+              if(response.status == 400){
                 $.each(response.errors, function(key, value) {
                   $('#log_error').text(value);
                 });
@@ -174,10 +174,10 @@
                   $('#log_error').text(value);
                 });
               }
-              else{
-                
+              else if(response.status == 200){
                 $('#login_btn').text('Please waite...');
-                window.open('/books');
+                window.location.href = '/books';
+               
               }
             }
            })

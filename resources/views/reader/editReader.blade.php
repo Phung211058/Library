@@ -18,36 +18,33 @@
     <!-- place navbar here -->
   </header>
   <main>
-    <form action="/addReader/{{ $reader->id }}" method="post" enctype="multipart/form-data">
+    <form id="r_form" action="/addReader/{{ $reader->id }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('PUT')
     <div id="TitleIma">
         <img style="width: 100%" src="" alt="">
     </div>
-    <div id="main">
+    <div id="r_main">
         <div class="col-6">
             <div id="content">
                 <Span class="mt-4">ID</Span>
-                <input type="text" class="form-control mt-3" value="{{ $reader->id }}" disabled>
+                <input type="text" class="form-control mt-3 me-5" value="{{ $reader->id }}" disabled>
             </div>
             <div id="content">
                 <Span class="mt-4">Image</Span>
-                <input type="file" class="form-control mt-3" name="u_image" value="{{ $reader->Image }}">
+                <input type="file" class="form-control mt-3 me-4" name="u_image" value="{{ $reader->Image }}">
             </div>
             <div id="content">
                 <Span class="mt-4">Gender</Span>
-                <select name="genre_id" class="form-select mt-3">
-                    {{-- @foreach($genre as $genre) {
-                        <option value=""> 
-                        
-                        </option>
-                    }
-                    @endforeach --}}
+                <select name="genre_id" class="form-select mt-3 me-5">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
                 </select>
             </div>
             <div id="content">
                 <Span class="mt-4">Age</Span>
-                <input name="u_age" type="text" class="form-control mt-3" value="{{ $reader->Age }}">
+                <input name="u_age" type="text" class="form-control mt-3 me-5" value="{{ $reader->Age }}">
             </div>
             {{-- <div id="content">
                 <Span class="mt-2">Email </Span>
@@ -83,7 +80,6 @@
     </div>
     <div id="action">
         <button type="submit" class="btn btn-success me-2">Save</button>
-        {{-- <a href="/books/"><button type="text" class="btn btn-danger ms-2">Cancel</button></a> --}}
     </div>
     </form>
     <a href="/addReader"><button id="cancel" class="btn btn-danger ms-2">Cancel</button></a>

@@ -57,4 +57,5 @@ Route::get('fetch_cate', [CategoryController::class, 'fetch_cate']);
 Route::get('edit-cate/{id}', [CategoryController::class, 'edit']);
 Route::put('update-cate/{id}', [CategoryController::class, 'update']);
 Route::delete('delete-cate/{id}', [CategoryController::class, 'destroy']);
+
 //____________________________________________________________________________

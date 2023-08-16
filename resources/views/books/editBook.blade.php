@@ -21,7 +21,7 @@
     <form action="/books/{{ $book->id }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('PUT')
-    <div id="TitleImgage">
+    <div id="TitleImage">
         <img style="width: 100%" src="/images/{{ $book->Image }}" alt="">
     </div>
     <div id="main">
@@ -54,7 +54,6 @@
             </div>
         </div>
         <div class="col-6">
-            
             {{-- <div id="content">
                 <Span class="mt-3">Caption</Span>
                 <input name="update_Caption" type="text" class="form-control mt-1" value="{{ $book->Caption }}">

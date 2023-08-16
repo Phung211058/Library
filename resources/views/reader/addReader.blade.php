@@ -21,9 +21,9 @@
               <input type="file" class="form-control" name="Reader_image" id="inputGroupFile02" value="choose image">
               <input type="text" id="" name="Reader_name" class="form-control mt-3" placeholder="Name" aria-describedby="basic-addon1">
               <select class="form-select mt-3" name="Reader_gender" id="">
-                      <option>Male</option>
-                      <option>Female</option>
-                      <option>Other</option>
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                      <option value="other">Other</option>
               </select>
               <input type="text" id="" name="Reader_age" class="form-control mt-3" placeholder="Age" aria-describedby="basic-addon1">
               <input type="text" id="" name="Reader_email" class="form-control mt-3" placeholder="Email" aria-describedby="basic-addon1">
