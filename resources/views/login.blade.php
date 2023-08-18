@@ -36,7 +36,7 @@
 
       <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
         <li class="nav-item w-50" role="presentation">
-          <button class="nav-link active" id="btn_signin" data-bs-toggle="tab" data-bs-target="#sign_in"
+          <button class="nav-link active" id="btn_signin" class="btn_signin" data-bs-toggle="tab" data-bs-target="#sign_in"
           type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Sign in</button>
         </li>
         <li class="nav-item w-50" role="presentation">
@@ -135,7 +135,7 @@
             data: data,
             dataType: 'json',
             success: function(response){
-              if(response.status == 200){
+              if(response.status == 400){
                 showerr(response.errors);
               }
               else{
@@ -182,6 +182,12 @@
             }
            })
         })
+
+        $(document).on('click', '.btn_signin', function(e){
+          e.preventDefault();
+          $('.alert').removeClass('alert-success').text('');
+        })
+
       })
 
       function showerr(errors){

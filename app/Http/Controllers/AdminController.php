@@ -32,7 +32,7 @@ class AdminController extends Controller
     {
         // print_r($_POST);
         $validate = Validator::make($request->all(), [
-            'email' => 'required|email|unique:users|max:100',
+            'email' => 'required|email|unique:admins|max:50',
             'phone' => 'required|integer',
             'pass' => 'required|min:8|max:20',
             'cfpass' => 'required|min:8|same:pass',
@@ -45,7 +45,7 @@ class AdminController extends Controller
 
         if($validate->fails()){
             return response()->json([
-                'status' => 200,
+                'status' => 400,
                 'errors' => $validate->messages(),
             ]);
         }
@@ -57,7 +57,7 @@ class AdminController extends Controller
             $account->role = 1;
             $account->save();
             return response()->json([
-                'status' => 400,
+                'status' => 200,
                 'message' => 'Successfully',
             ]);
         };
@@ -83,7 +83,7 @@ class AdminController extends Controller
             $account = Admin::where('email', $request->log_email)->first();
             if($account){
                 if(Hash::check($request->log_pass, $account->password)){
-                    $request->session()->put('loggedOn', $account->id);
+                    $request->session()->put('loggedIn', $account->id);
                     return response()->json([
                         'status' => 200,
                         'message' => 'Success',

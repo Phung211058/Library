@@ -29,6 +29,7 @@ body{
   height: 45px;
   width: 70%;
   left: 50%;
+  transition: 3s;
   transform: translateX(-50%);
   text-align: center;
   /* text-transform: -5%; */
