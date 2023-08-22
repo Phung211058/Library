@@ -23,21 +23,40 @@ use Illuminate\Support\Facades\Route;
 //     return view('login');
 // });
 
+Route::middleware('LoginCheck')->group(function () { 
+    Route::get('/logout', [AdminController::class, 'logout']);
+    
+    //books__________________________________________________________________
+    Route::get('/books', [BookController::class, 'index']);
+    Route::resource('books', BookController::class);
+    //_______________________________________________________________________
+    
+    //genre__________________________________________________________________
+    Route::resource('/genre', GenreController::class);
+    //_______________________________________________________________________
+    
+    //Reader_________________________________________________________________
+    Route::resource('/addReader', ReaderController::class);
+    
+    //Category_______________________________________________________________
+    Route::resource('category', CategoryController::class);
+    //_______________________________________________________________________
+
+});
+
+
 // login_____________________________________________________________________
 Route::get('/login', [AdminController::class, 'index']);
 Route::post('/register', [AdminController::class, 'store']);
 Route::post('/login', [AdminController::class, 'login']);
-
 //___________________________________________________________________________
 
 // book _____________________________________________________________________
-Route::resource('/books', BookController::class);
 Route::get('books/{id}', [BookController::class, 'edit']);
 Route::put('books/', [BookController::class, 'update']);
 //___________________________________________________________________________
 
 // genre_____________________________________________________________________
-Route::resource('/genre', GenreController::class);
 Route::get('fetch_genres', [GenreController::class, 'fetch_genres']);
 Route::post('genre', [GenreController::class, 'store']);
 Route::get('edit-genre/{id}', [GenreController::class, 'edit']);
@@ -46,16 +65,13 @@ Route::delete('delete-genre/{id}', [GenreController::class, 'destroy']);
 //____________________________________________________________________________
 
 // reader_____________________________________________________________________
-Route::resource('/addReader', ReaderController::class);
 Route::get('addReader/{id}', [ReaderController::class, 'edit']);
 //____________________________________________________________________________
 
 // category___________________________________________________________________
-Route::resource('category', CategoryController::class);
 Route::post('category', [CategoryController::class, 'store']);
 Route::get('fetch_cate', [CategoryController::class, 'fetch_cate']);
 Route::get('edit-cate/{id}', [CategoryController::class, 'edit']);
 Route::put('update-cate/{id}', [CategoryController::class, 'update']);
 Route::delete('delete-cate/{id}', [CategoryController::class, 'destroy']);
-
 //____________________________________________________________________________

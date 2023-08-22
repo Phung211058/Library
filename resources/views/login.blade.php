@@ -177,7 +177,6 @@
               else if(response.status == 200){
                 $('#login_btn').text('Please waite...');
                 window.location.href = '/books';
-               
               }
             }
            })

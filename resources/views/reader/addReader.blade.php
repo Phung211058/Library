@@ -50,19 +50,19 @@
         <th class="col-2">Action</th>
     </thead>
     <tbody>
-      <tr>
+      {{-- <tr>
         <td><img src="{{ asset('images/joker1.png') }}" alt=""></td>
         <td>Nguyễn Minh Phụng</td>
         <td>Nam</td>
         <td>20</td>
         <td>PhungNMGBH211058@fpt.edu.vn</td>
         <td>0329257839</td>
-        {{-- <td>3</td> --}}
+        <td>3</td>
         <td>
           <button class="btn btn-success d-inline">View</button>
           <button class="btn btn-danger d-inline">Delete</button>
         </td>
-      </tr>
+      </tr> --}}
       @foreach ($reader as $item) {
         <tr>
           <td><img src="images/{{ $item->Image }}" alt=""></td>

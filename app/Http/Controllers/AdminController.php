@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -15,14 +17,6 @@ class AdminController extends Controller
     public function index()
     {
         return view('login');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -80,21 +74,32 @@ class AdminController extends Controller
             ]);
         }
         else{
+            // dd(Auth::guard('admins')->attempt([
+            //     'email' => $request->log_email,
+            //     'password' => $request->log_pass,
+            // ]));
+            // {
+            if(Auth::guard('admins')->attempt([
+                    'email' => $request->log_email,
+                    'password' => $request->log_pass,
+            ])){
+            $request->session()->regenerate();
             $account = Admin::where('email', $request->log_email)->first();
-            if($account){
-                if(Hash::check($request->log_pass, $account->password)){
-                    $request->session()->put('loggedIn', $account->id);
-                    return response()->json([
-                        'status' => 200,
-                        'message' => 'Success',
-                    ]);
-                }
-                else{
-                    return response()->json([
-                        'status' => 401,
-                        'errors' => 'Email or password is incorrect!',
-                    ]);
-                }
+            Auth::login($account);
+                // if($account){
+                    // if(Hash::check($request->log_pass, $account->password)){
+                         // $request->session()->put('loggedIn', $account->id);
+                        return response()->json([
+                            'status' => 200,
+                            'message' => 'Success',
+                        ]);
+                    // }
+                    // else{
+                    //     return response()->json([
+                    //         'status' => 401,
+                    //         'errors' => 'Email or password is incorrect!',
+                    //     ]);
+                    // }
             }
             else{
                 return response()->json([
@@ -102,6 +107,30 @@ class AdminController extends Controller
                     'errors' => 'User does not exist!',
                 ]);
             }
+
+            // }
+
+            // if (Auth::attempt($request->only(['log_email', 'log_pass']))){
+            //     return response()->json([
+            //         'status' => 200,
+            //         'success' => url('books'),
+            //     ]);
+                
+            // }
+            // else{
+            //     return response()->json([
+            //         'status' => 404,
+            //         'errors' => 'User does not exist',
+            //     ]);
+            // }
         }
+    }
+
+
+    public function logout(Request $request): RedirectResponse{
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/login');
     }
 }

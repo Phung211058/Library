@@ -78,7 +78,7 @@
             </div> --}}
         </div>
     </div>
-    <div id="action">
+    <div id="actions">
         <button type="submit" class="btn btn-success me-2">Save</button>
     </div>
     </form>

@@ -32,7 +32,7 @@
           <button class="btn btn-success" type="submit">Search</button>
         </form>
         <button class="btn btn-secondary ms-3" data-bs-toggle="modal" data-bs-target="#createForm">Add new</button>
-        <a href="/login/"><button class="btn btn-primary ms-3 me-5">Log out</button></a>
+        <a href="/logout/"><button class="btn btn-primary ms-3 me-5">Log out</button></a>
       </div>
     </div>
   </nav>
