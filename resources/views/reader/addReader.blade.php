@@ -16,7 +16,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form action="/addReader/" method="POST" style="display: inline" enctype="multipart/form-data">
+            <form action="/reader/" method="POST" style="display: inline" enctype="multipart/form-data">
               @csrf
               <input type="file" class="form-control" name="Reader_image" id="inputGroupFile02" value="choose image">
               <input type="text" id="" name="Reader_name" class="form-control mt-3" placeholder="Name" aria-describedby="basic-addon1">
@@ -73,10 +73,13 @@
           <td>{{ $item->Phone }}</td>
           {{-- <td>{{ $item->Reliability }}</td> --}}
           <td>
-            <a href="/addReader/{{ $item->id }}/edit">
+            <a href="/reader/{{ $item->id }}/edit">
               <button type="submit" value="{{ $item->id }}" class="btn btn-success d-inline">View</button>
             </a>
-            <button class="btn btn-danger d-inline">Delete</button>
+            <form action="/reader/{{ $item->id }}" method="POST" style="display: inline">
+              @csrf @method('delete')
+              <button type="submit" value="delete" class="btn btn-danger" onclick="return confirm('Do you want to delete')">Delete</button>
+          </form>
           </td>
         </tr>
       }

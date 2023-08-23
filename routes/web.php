@@ -28,7 +28,6 @@ Route::middleware('LoginCheck')->group(function () {
     
     //books__________________________________________________________________
     Route::get('/books', [BookController::class, 'index']);
-    Route::resource('books', BookController::class);
     //_______________________________________________________________________
     
     //genre__________________________________________________________________
@@ -36,14 +35,16 @@ Route::middleware('LoginCheck')->group(function () {
     //_______________________________________________________________________
     
     //Reader_________________________________________________________________
-    Route::resource('/addReader', ReaderController::class);
+    Route::resource('/reader', ReaderController::class);
+    //_______________________________________________________________________
     
     //Category_______________________________________________________________
     Route::resource('category', CategoryController::class);
     //_______________________________________________________________________
-
+    
 });
 
+// Route::resource('books', BookController::class);
 
 // login_____________________________________________________________________
 Route::get('/login', [AdminController::class, 'index']);
@@ -52,8 +53,9 @@ Route::post('/login', [AdminController::class, 'login']);
 //___________________________________________________________________________
 
 // book _____________________________________________________________________
-Route::get('books/{id}', [BookController::class, 'edit']);
-Route::put('books/', [BookController::class, 'update']);
+Route::get('books/{id}/edit', [BookController::class, 'edit']);
+Route::post('books/', [BookController::class, 'store']);
+Route::put('books/{id}', [BookController::class, 'update']);
 //___________________________________________________________________________
 
 // genre_____________________________________________________________________
@@ -65,7 +67,7 @@ Route::delete('delete-genre/{id}', [GenreController::class, 'destroy']);
 //____________________________________________________________________________
 
 // reader_____________________________________________________________________
-Route::get('addReader/{id}', [ReaderController::class, 'edit']);
+Route::get('reader/{id}', [ReaderController::class, 'edit']);
 //____________________________________________________________________________
 
 // category___________________________________________________________________

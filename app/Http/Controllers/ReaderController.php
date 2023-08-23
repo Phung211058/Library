@@ -10,10 +10,15 @@ class ReaderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $reader = Reader::all();
-
+        $search = $request['search'];
+        if ($search != '') {
+            $reader = Reader::where('Name', 'LIKE', "$search")->get();
+        }
+        else{
+            $reader = Reader::all();
+        }
         return view('reader.addReader', compact('reader'));
     }
 
@@ -46,7 +51,7 @@ class ReaderController extends Controller
         $reader->phone = $request->Reader_phone;
         $reader->reliability = 3;
         $reader->save();
-        return redirect('/addReader');
+        return redirect('/reader');
     }
 
     /**
@@ -71,7 +76,25 @@ class ReaderController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        if($request->has('u_image')){
+            $files = $request->u_image;
+            // dd($file);
+            $file_name = $files->getClientoriginalName();
+            // dd($file_nam);
+            $files->move(public_path('images'), $file_name);
+            $request->merge(['upimage' => $file_name]);
+            // dd($request->all());
+        }
+        $reader = Reader::find($id);
+        $reader->image = $request->upimage;
+        $reader->name = $request->u_name;
+        $reader->age = $request->u_age;
+        $reader->gender = $request->u_gender;
+        $reader->email = $request->u_email;
+        $reader->phone = $request->u_phone;
+        $reader->reliability = $request->u_reliability;
+        $reader->save();
+        return redirect('/reader');
     }
 
     /**
@@ -79,6 +102,8 @@ class ReaderController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $reader = Reader::find($id);
+        $reader->delete();
+        return redirect('/reader');
     }
 }

@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('readers', function (Blueprint $table) {
             $table->id();
-            $table->string('Image');
+            $table->string('Image')->nullable();
             $table->string('Name');
-            $table->string('Gender');
-            $table->integer('Age');
+            $table->string('Gender')->nullable();
+            $table->integer('Age')->nullable();
             $table->string('Email');
             $table->string('Phone');
             $table->string('Reliability');

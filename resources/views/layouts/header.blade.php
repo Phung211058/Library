@@ -2,7 +2,8 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary bg-primary">
     <div class="container-fluid">
       <li class="navbar-brand ms-5" href="">@yield('main')</li>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" 
+                  aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -21,7 +22,7 @@
               <li><a class="dropdown-item" href="/books">Books</a></li>
               <li><a class="dropdown-item" href="/genre">Genre</a></li>
               <li><a class="dropdown-item" href="/category">Cateogry</a></li>
-              <li><a class="dropdown-item" href="/addReader">Reader</a></li>
+              <li><a class="dropdown-item" href="/reader">Reader</a></li>
               {{-- <li><hr class="dropdown-divider"></li> --}}
               {{-- <li><a class="dropdown-item" href="#">Something else here</a></li> --}}
             </ul>

@@ -2,7 +2,7 @@
 @section('title', 'Books')
 @section('main', 'Books')
 @section('content')
-    @if(session('success'))
+    {{-- @if(session('success'))
     <p class="alert alert-success col-4">
       {{ session('success') }}
     </p>
@@ -11,7 +11,7 @@
     <p class="alert alert-success col-4">
       {{ session('delete') }}
     </p>
-    @endif
+    @endif --}}
     </div>
     <div class="modal fade" id="createForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">

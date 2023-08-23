@@ -18,7 +18,7 @@
     <!-- place navbar here -->
   </header>
   <main>
-    <form id="r_form" action="/addReader/{{ $reader->id }}" method="post" enctype="multipart/form-data">
+    <form id="r_form" action="/reader/{{ $reader->id }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('PUT')
     <div id="TitleIma">
@@ -36,7 +36,7 @@
             </div>
             <div id="content">
                 <Span class="mt-4">Gender</Span>
-                <select name="genre_id" class="form-select mt-3 me-5">
+                <select name="u_gender" class="form-select mt-3 me-5">
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                         <option value="other">Other</option>
@@ -52,6 +52,10 @@
             </div> --}}
         </div>
         <div class="col-6">
+            <div id="content">
+                <Span class="mt-4">Name</Span>
+                <input name="u_name" type="text" class="form-control mt-3" value="{{ $reader->Name }}">
+            </div>
             <div id="content">
                 <Span class="mt-4">Email </Span>
                 <input name="u_email" type="text" class="form-control mt-3" value="{{ $reader->Email }}">
@@ -82,7 +86,7 @@
         <button type="submit" class="btn btn-success me-2">Save</button>
     </div>
     </form>
-    <a href="/addReader"><button id="cancel" class="btn btn-danger ms-2">Cancel</button></a>
+    <a href="/reader"><button id="cancel" class="btn btn-danger ms-2">Cancel</button></a>
   </main>
   <footer>
     <!-- place footer here -->

@@ -107,7 +107,7 @@ class BookController extends Controller
         $book->number_of_pages =  $request->update_Number_of_pages;
         $book->categories()->attach($request->categories);
         $book->save();
-        return redirect('/books')->with('success', 'edit successfully');
+        return redirect('/books');
     }
     /**
      * Remove the specified resource from storage.
@@ -116,6 +116,6 @@ class BookController extends Controller
     {
         $book = Book::find($id);
         $book->delete();
-        return redirect('/books')->with('delete', 'Delete successfully');
+        return redirect('/books');
     }
 }
