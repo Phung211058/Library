@@ -59,7 +59,6 @@ class BookController extends Controller
         $book->save();
         $book->categories()->attach($request->categories);
         return redirect('/books');
-        
     }
 
     /**

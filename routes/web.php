@@ -27,7 +27,7 @@ Route::middleware('LoginCheck')->group(function () {
     Route::get('/logout', [AdminController::class, 'logout']);
     
     //books__________________________________________________________________
-    Route::get('/books', [BookController::class, 'index']);
+    Route::resource('/books', BookController::class);
     //_______________________________________________________________________
     
     //genre__________________________________________________________________
@@ -54,8 +54,9 @@ Route::post('/login', [AdminController::class, 'login']);
 
 // book _____________________________________________________________________
 Route::get('books/{id}/edit', [BookController::class, 'edit']);
-Route::post('books/', [BookController::class, 'store']);
-Route::put('books/{id}', [BookController::class, 'update']);
+// Route::post('books/', [BookController::class, 'store']);
+// Route::put('books/{id}', [BookController::class, 'update']);
+// Route::delete('books/{id}', [BookController::class, 'destroy']);
 //___________________________________________________________________________
 
 // genre_____________________________________________________________________
