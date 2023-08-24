@@ -8,21 +8,18 @@ use Illuminate\Support\Facades\Validator;
 
 class GenreController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $genres = Genre::all();
         return view('genres.genre', compact('genres'));
     }
 
-    // fetch_genres
     public function fetch_genres()
     {
         $genres = Genre::all();
         return response()->json([
-            'status' => 100,
+            'status' => 200,
             'genres' => $genres,
         ]);
     }
@@ -78,23 +75,12 @@ class GenreController extends Controller
     public function edit(string $id)
     {
         $genre = Genre::find($id);
-        // if($genre){
             return response()->json([
                 'status' => 200,
                 'genre' => $genre, 
             ]);
-        // }
-        // else{
-        //     return response()->json([
-        //         'status' => 200,
-        //         'genre' => 'Edit successfully', 
-        //     ]);
-        // }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $validate = Validator::make($request->all(), [
@@ -105,7 +91,7 @@ class GenreController extends Controller
         ]);
         if($validate->fails()){
             return response()->json([
-                'status' => 405,
+                'status' => 400,
                 'errors' => $validate->messages(),
             ]);
         }
@@ -125,7 +111,6 @@ class GenreController extends Controller
      */
     public function destroy(string $id)
     {
-        
         $book = Genre::find($id);
         $book->delete();
         return response()->json([

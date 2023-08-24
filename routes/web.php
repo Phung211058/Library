@@ -24,8 +24,6 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::middleware('LoginCheck')->group(function () { 
-    Route::get('/logout', [AdminController::class, 'logout']);
-    
     //books__________________________________________________________________
     Route::resource('/books', BookController::class);
     //_______________________________________________________________________
@@ -41,7 +39,6 @@ Route::middleware('LoginCheck')->group(function () {
     //Category_______________________________________________________________
     Route::resource('category', CategoryController::class);
     //_______________________________________________________________________
-    
 });
 
 // Route::resource('books', BookController::class);
@@ -51,6 +48,7 @@ Route::get('/login', [AdminController::class, 'index']);
 Route::post('/register', [AdminController::class, 'store']);
 Route::post('/login', [AdminController::class, 'login']);
 //___________________________________________________________________________
+Route::get('/logout', [AdminController::class, 'logout']);
 
 // book _____________________________________________________________________
 Route::get('books/{id}/edit', [BookController::class, 'edit']);

@@ -165,7 +165,7 @@
                     data: data,
                     dataType: 'json',
                     success: function(response){
-                        if(response.status == 405){
+                        if(response.status == 400){
                             $('#errorup').addClass('text-danger');
                             $.each(response.errors, function(key, val){
                                 $('#errorup').text(val);

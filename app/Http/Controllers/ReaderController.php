@@ -71,19 +71,13 @@ class ReaderController extends Controller
         return view('reader.editReader', compact('reader'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         if($request->has('u_image')){
             $files = $request->u_image;
-            // dd($file);
             $file_name = $files->getClientoriginalName();
-            // dd($file_nam);
             $files->move(public_path('images'), $file_name);
             $request->merge(['upimage' => $file_name]);
-            // dd($request->all());
         }
         $reader = Reader::find($id);
         $reader->image = $request->upimage;

@@ -24,7 +24,6 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        // print_r($_POST);
         $validate = Validator::make($request->all(), [
             'email' => 'required|email|unique:admins|max:50',
             'phone' => 'required|integer',
@@ -74,11 +73,6 @@ class AdminController extends Controller
             ]);
         }
         else{
-            // dd(Auth::guard('admins')->attempt([
-            //     'email' => $request->log_email,
-            //     'password' => $request->log_pass,
-            // ]));
-            // {
             if(Auth::guard('admins')->attempt([
                     'email' => $request->log_email,
                     'password' => $request->log_pass,
@@ -86,20 +80,10 @@ class AdminController extends Controller
             $request->session()->regenerate();
             $account = Admin::where('email', $request->log_email)->first();
             Auth::login($account);
-                // if($account){
-                    // if(Hash::check($request->log_pass, $account->password)){
-                         // $request->session()->put('loggedIn', $account->id);
                         return response()->json([
                             'status' => 200,
                             'message' => 'Success',
                         ]);
-                    // }
-                    // else{
-                    //     return response()->json([
-                    //         'status' => 401,
-                    //         'errors' => 'Email or password is incorrect!',
-                    //     ]);
-                    // }
             }
             else{
                 return response()->json([
@@ -107,25 +91,18 @@ class AdminController extends Controller
                     'errors' => 'User does not exist!',
                 ]);
             }
-
-            // }
-
-            // if (Auth::attempt($request->only(['log_email', 'log_pass']))){
-            //     return response()->json([
-            //         'status' => 200,
-            //         'success' => url('books'),
-            //     ]);
-                
-            // }
-            // else{
-            //     return response()->json([
-            //         'status' => 404,
-            //         'errors' => 'User does not exist',
-            //     ]);
-            // }
         }
     }
+                    // if($account){
+                    // if(Hash::check($request->log_pass, $account->password)){
 
+                        // }
+                    // else{
+                    //     return response()->json([
+                    //         'status' => 401,
+                    //         'errors' => 'Email or password is incorrect!',
+                    //     ]);
+                    // }
 
     public function logout(Request $request): RedirectResponse{
         Auth::logout();

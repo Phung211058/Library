@@ -163,7 +163,6 @@
             data: data,
             dataType: 'json',
             success: function(response) {
-              console.log(response);
               if(response.status == 400){
                 $.each(response.errors, function(key, value) {
                   $('#log_error').text(value);
@@ -172,7 +171,6 @@
               else if(response.status == 401) {
                 $.each(response.errors, function(key, value) {
                   $('#log_error').text(value);
-                  alert('hello b');
                 });
               }
               else if(response.status == 200){

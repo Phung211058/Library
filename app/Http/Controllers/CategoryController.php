@@ -82,9 +82,6 @@ class CategoryController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $validate = Validator::make($request->all(), [
@@ -96,7 +93,7 @@ class CategoryController extends Controller
     );
     if ($validate->fails()){
         return response()->json([
-            'status' => 405,
+            'status' => 400,
             'errors' => $validate->messages(),
         ]);
     }
@@ -107,7 +104,7 @@ class CategoryController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'Successfully updated',
-    ]);
+        ]);
     }
     }
 
@@ -118,7 +115,6 @@ class CategoryController extends Controller
     {
         $cate = Category::find($id);
         $cate->delete();
-        // return redirect('/category');
         return response()->json([
             'status' => 200,
             'message' => 'deleted successfully'

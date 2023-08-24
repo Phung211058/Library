@@ -70,7 +70,6 @@
                     url: '/fetch_genres',
                     dataType: "json",
                     success: function(response){
-                        // console.log(response.genres);
                         $('tbody').html('');
                         $.each(response.genres, function(key, val){
                             $('tbody').append('<tr>\
@@ -90,11 +89,9 @@
             // function to add a new ------------------------------------------------------------------------------
             $(document).on('click', '#submit_add', function(e){
                 e.preventDefault();
-                // console.log('Hello World');
                 var data = {
                     'Genres_Name': $('#Genres_Name').val()
                 }
-                // console.log(data);
 
                 $.ajaxSetup({
                     headers: {
@@ -108,9 +105,7 @@
                     data: data,
                     dataType: 'json',
                     success: function(response){
-                        // console.log(response);  
                         if(response.status == 400){
-                            // $('#error').html('');
                             $('#error').addClass('text-danger');
                             $.each(response.errors, function(key, val){
                                 $('#error').text(val);
@@ -120,7 +115,6 @@
                             $('#error').removeClass('text-danger');
                             $('#error').addClass('text-success');
                             $('#error').text(response.message);
-                            // $('#add_form').find('input').text('');
                             $('#Genres_Name').val('')
                             fetch_genres();
                         }
@@ -179,7 +173,7 @@
                     data: data,
                     dataType: 'json',
                     success: function(response) {
-                        if(response.status == 405){
+                        if(response.status == 400){
                             $('#errorup').addClass('text-danger');
                             $.each(response.errors, function(key, val){
                                 $('#errorup').text(val);
