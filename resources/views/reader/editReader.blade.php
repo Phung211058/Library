@@ -22,7 +22,7 @@
         @csrf
         @method('PUT')
     <div id="TitleIma">
-        <img style="width: 100%" src="" alt="">
+        <img style="width: 100%" src="/images/{{ $reader->Image }}" alt="">
     </div>
     <div id="r_main">
         <div class="col-6">
